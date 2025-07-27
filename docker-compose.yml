@@ -1,0 +1,20 @@
+services:
+  db:
+    container_name: newpostgres_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: rootuser
+      POSTGRES_PASSWORD: paul
+      POSTGRES_DB: testing_db
+    ports:
+      - '5432:5432'
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: atljsd@admin.com
+      PGADMIN_DEFAULT_PASSWORD: changethepassword
+    ports:
+      - '5050:80'
