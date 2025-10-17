@@ -35,7 +35,10 @@ export class AuthService {
     return user;
   }
 
-  public async login(email: string, password: string): Promise<string> {
+  public async login(
+    email: string,
+    password: string,
+  ): Promise<{ token: string; userId: string }> {
     const user = await this.userService.findOneByEmail(email);
 
     // 1) Theres no such user
@@ -45,12 +48,12 @@ export class AuthService {
     ) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    // 2) Password is invalid
-    // if (!(await this.passwordService.verify(password, user.password))) {
-    //   throw new UnauthorizedException('Invalid credentiald');
-    // }
+    const token = this.generateToken(user);
 
-    return this.generateToken(user);
+    return {
+      token,
+      userId: user.id,
+    };
   }
 
   private generateToken(user: User): string {

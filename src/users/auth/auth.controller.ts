@@ -42,11 +42,11 @@ export class AuthController {
   @Post('login')
   @Public()
   async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
-    const accessToken = await this.authService.login(
+    const { token, userId } = await this.authService.login(
       loginDto.email,
       loginDto.password,
     );
-    return new LoginResponse({ accessToken });
+    return new LoginResponse({ accessToken: token, userId });
   }
 
   @Get('/profile')
