@@ -23,9 +23,11 @@ export default new DataSource({
   synchronize: Boolean(Number(process.env.DB_SYNC ?? 1)),
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/src/migrations/*{.ts,.js}'],
-  ssl: isProduction
+  extra: isProduction
     ? {
-        rejectUnauthorized: false, // needed for providers like Neon.tech
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }
-    : false,
+    : {},
 });
