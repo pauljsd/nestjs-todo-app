@@ -9,7 +9,7 @@ export default new DataSource({
   type: 'postgres',
   ...(isProduction
     ? {
-        url: process.env.DATABASE_URL, // For production (cloud)
+        url: process.env.DB_URL, // For production (cloud)
       }
     : {
         host: process.env.DB_HOST ?? 'localhost',
@@ -19,7 +19,8 @@ export default new DataSource({
         database: process.env.DB_DATABASE ?? 'postgres',
       }),
 
-  synchronize: false,
+  // synchronize: false,
+  synchronize: Boolean(Number(process.env.DB_SYNC ?? 1)),
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/src/migrations/*{.ts,.js}'],
   ssl: isProduction
